@@ -124,7 +124,7 @@
             const timestamp = messageBody.timestamp
 
             const event = '<div class="event">' +
-                            'div class="label">' +
+                            '<div class="label">' +
                                 '<img src=' + user.avatarUrl + '>' +
                             '</div>' +
                             '<div class="content">' +
@@ -243,6 +243,20 @@
                     $comment.val('')
                 }
             })
-        }
-    )
+
+            $('#leaveChatBtn').click(function() {
+                webSocket.disconnect()
+
+                $(".feed").empty()
+                $(".list").empty()
+                splide.go(0)
+            })
+
+            $('input.nickname').focus()
+
+            function hasOnlyLettersAndNumbers(str) {
+                const regex = /^[a-zA-Z0-9]+$/
+                return regex.test(str)
+            }
+        })
 
