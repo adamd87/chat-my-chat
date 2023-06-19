@@ -22,13 +22,15 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
-                        .requestMatchers("/").hasAuthority(CHAT_USER)
-                        .requestMatchers("/login", "/oauth2/**").permitAll()
-                        .anyRequest().authenticated())
+                .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
+                        authorizationManagerRequestMatcherRegistry
+                                .requestMatchers("/").hasAuthority(CHAT_USER)
+                                .requestMatchers("/login", "/oauth2/**").permitAll()
+                                .anyRequest().authenticated())
                 .oauth2Login(httpSecurityOAuth2LoginConfigurer -> httpSecurityOAuth2LoginConfigurer
                         .loginPage("/login").defaultSuccessUrl("/")
-                        .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig.userService(customOAuth2UserService)))
+                        .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
+                                .userService(customOAuth2UserService)))
                 .logout(httpSecurityLogoutConfigurer -> httpSecurityLogoutConfigurer
                         .logoutSuccessUrl("/").permitAll())
                 .csrf(AbstractHttpConfigurer::disable)
